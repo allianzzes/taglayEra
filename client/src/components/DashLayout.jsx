@@ -19,14 +19,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import Button from "@mui/material/Button";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ArticleIcon from "@mui/icons-material/Article";
-import logo from "../assets/react.svg";
-import { Stack } from "@mui/material";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import Button from "@mui/material/Button";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -36,6 +34,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  backgroundColor: "#050505",
+  borderRight: "1px solid #9d0000",
 });
 
 const closedMixin = (theme) => ({
@@ -48,6 +48,8 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  backgroundColor: "#050505",
+  borderRight: "1px solid #222",
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -62,6 +64,9 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: "#0a0a0a",
+  borderBottom: "1px solid #9d0000",
+  boxShadow: "0 0 15px rgba(157, 0, 0, 0.2)",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -93,22 +98,12 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.05),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.1),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -118,11 +113,22 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#9d0000",
+}));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  color: "#fff",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -132,151 +138,128 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const getPageTitle = (pathname) => {
-  switch (pathname) {
-    // case "/dashboard":
-    //   return "Dashboard";
-    case "/dashboard/dash-articles":
-      return "Articles";
-    case "/dashboard/users":
-      return "Users";
-    // case "/dashboard/reports":
-    //   return "Reports";
-    default:
-      return "Welcome";
-  }
-};
-
 const DashLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const name =
-    location.state?.firstName || localStorage.getItem("firstName") || "User";
-  const userType = location.state?.type || localStorage.getItem("type");
-  const pageTitle = getPageTitle(location.pathname);
   const navigate = useNavigate();
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  // Retrieve data from local storage to keep the operator name updated
+  const name = localStorage.getItem("firstName") || "Scout";
+  const userType = localStorage.getItem("type");
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   const handleLogout = () => {
-    navigate("/");
+    localStorage.clear(); // This removes the token, triggering the ProtectedRoute redirect
+    navigate("/auth/signin");
   };
 
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        {/* App Bar */}
-        {/* <AppBar position="fixed" open={open}> */}
-        <AppBar position="fixed">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              // onClick={(open)}
-              onClick={open ? handleDrawerClose : handleDrawerOpen}
-              edge="start"
-              // sx={{ marginRight: 5, ...(open && { display: 'none' }) }}
-              sx={{ marginRight: 5, ...open }}
+    <Box sx={{ display: "flex", backgroundColor: "#000", minHeight: "100vh" }}>
+      <CssBaseline />
+      
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={open ? handleDrawerClose : handleDrawerOpen}
+            edge="start"
+            sx={{ marginRight: 5, color: "#9d0000" }}
+          >
+            {open ? <MenuOpenIcon /> : <MenuIcon />}
+          </IconButton>
+
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: "#fff", letterSpacing: 2, fontWeight: 'bold' }}>
+            OPERATOR: {name.toUpperCase()}
+          </Typography>
+
+          <Search>
+            <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
+            <StyledInputBase placeholder="SCAN_DATABASE..." inputProps={{ "aria-label": "search" }} />
+          </Search>
+
+          <Button 
+            variant="outlined" 
+            onClick={handleLogout}
+            sx={{ color: "#9d0000", borderColor: "#9d0000", fontWeight: 'bold', "&:hover": { borderColor: "#ff0000", backgroundColor: "rgba(157,0,0,0.1)" }}}
+          >
+            TERMINATE_SESSION
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose} sx={{ color: "#9d0000" }}>
+            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider sx={{ backgroundColor: "#222" }} />
+        
+        <List sx={{ color: "#d1d1d1" }}>
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/dash-articles"
+              selected={location.pathname === "/dashboard/dash-articles"}
+              sx={{
+                "&.Mui-selected": { borderLeft: "4px solid #9d0000", backgroundColor: "rgba(157,0,0,0.1)" },
+                "&:hover": { backgroundColor: "rgba(157,0,0,0.15)" }
+              }}
             >
-              {open ? <MenuOpenIcon /> : <MenuIcon />}
-            </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1 }}
+              <ListItemIcon sx={{ color: location.pathname === "/dashboard/dash-articles" ? "#ff0000" : "#9d0000" }}>
+                <ArticleIcon />
+              </ListItemIcon>
+              <ListItemText primary="INTEL_LOGS" />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/new-report"
+              selected={location.pathname === "/dashboard/new-report"}
+              sx={{
+                "&.Mui-selected": { borderLeft: "4px solid #9d0000", backgroundColor: "rgba(157,0,0,0.1)" },
+                "&:hover": { backgroundColor: "rgba(157,0,0,0.15)" }
+              }}
             >
-              {/* {pageTitle} */}
-              Welcome, {name}
-            </Typography>
-            {/* Search */}
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-            <Button color="inherit" variant="outlined" onClick={handleLogout}>
-              Logout
-            </Button>
-          </Toolbar>
-        </AppBar>
-        {/* Drawer */}
-        <Drawer variant="permanent" open={open}>
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          {/* Drawer List */}
-          <List>
+              <ListItemIcon sx={{ color: location.pathname === "/dashboard/new-report" ? "#ff0000" : "#9d0000" }}>
+                <PostAddIcon />
+              </ListItemIcon>
+              <ListItemText primary="NEW_REPORT" />
+            </ListItemButton>
+          </ListItem>
+
+          {userType === "admin" && (
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 component={Link}
-                to="/dashboard/dash-articles"
-                selected={location.pathname === "/dashboard/dash-articles"}
+                to="/dashboard/users"
+                selected={location.pathname === "/dashboard/users"}
+                sx={{
+                    "&.Mui-selected": { borderLeft: "4px solid #9d0000", backgroundColor: "rgba(157,0,0,0.1)" },
+                    "&:hover": { backgroundColor: "rgba(157,0,0,0.15)" }
+                }}
               >
-                <ListItemIcon>
-                  <ArticleIcon />
+                <ListItemIcon sx={{ color: location.pathname === "/dashboard/users" ? "#ff0000" : "#9d0000" }}>
+                  <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Articles" />
+                <ListItemText primary="SURVIVOR_LIST" />
               </ListItemButton>
             </ListItem>
-            {/* <>
-              <ListItem disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  component={Link}
-                  to="/dashboard/users"
-                  selected={location.pathname === "/dashboard/users"}
-                >
-                  <ListItemIcon>
-                    <PeopleIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Users" />
-                </ListItemButton>
-              </ListItem>
-            </> */}
-            {userType === "admin" && (
-              <>
-                <ListItem disablePadding sx={{ display: "block" }}>
-                  <ListItemButton
-                    component={Link}
-                    to="/dashboard/users"
-                    selected={location.pathname === "/dashboard/users"}
-                  >
-                    <ListItemIcon>
-                      <PeopleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Users" />
-                  </ListItemButton>
-                </ListItem>
-              </>
-            )}
-          </List>
-        </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <DrawerHeader />
-          {/* Content */}
-          <Outlet />
-        </Box>
+          )}
+        </List>
+      </Drawer>
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3, backgroundColor: "#000", color: "#fff", minHeight: "100vh" }}>
+        <DrawerHeader />
+        <Outlet />
       </Box>
-    </>
+    </Box>
   );
 };
 

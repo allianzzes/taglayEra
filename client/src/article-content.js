@@ -1,55 +1,24 @@
 const articles = [
     {
-        name: "react-props-and-styling", // String
-        title: "Understanding React Props and Styling", //String
-        // List --> String
+        name: "sector-7-whispering-cinema",
+        title: "Sector 7: The Whispering Cinema",
         content: [
-            "Props (short for properties) allow you to pass data between components. They are read-only and essential for component reusability.",
-            "Example:\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}",
-            "React supports multiple styling approaches: inline styles, CSS files, CSS Modules, and styled-components.",
-            "Inline Style Example:\nconst style = { color: 'blue' };\n<p style={style}>Styled Text</p>"
+            "REPORT ID: 001 | STATUS: UNSTABLE",
+            "Observations: A suburban theater turned nest. Eerie silence punctuated by distant scratching sounds behind the screen.",
+            "Tactical Note: Avoid using high-beam flashlights. The 'Seekers' in this area are sensitive to sudden light fluctuations.",
+            "Survivor Log: Found a stash of dry rations in the projection room. Leaving this note for the next scouting party: The emergency exit is jammed from the outside."
         ]
     },
     {
-        name: "react-functional-components",
-        title: "React Functional Components",
+        name: "mercy-hospital-perimeter",
+        title: "Mercy Hospital: East Wing Perimeter",
         content: [
-            "Functional components are simple JavaScript functions that return JSX.",
-            "They are stateless by default but can use hooks like useState and useEffect.",
-            "Example:\nfunction HelloWorld() {\n  return <h1>Hello, World!</h1>;\n}",
-            "They are preferred in modern React apps for simplicity and performance."
+            "REPORT ID: 002 | STATUS: CRITICAL",
+            "Observations: Heavy infestation detected in the triage area. Movement seen on the 4th-floor windows.",
+            "Tactical Note: Sound carries through the ventilation shafts. Move in a crouched position and use melee weapons only.",
+            "Survivor Log: I can hear them moving in the walls. If you find this, don't look for me. Just get the meds and get out."
         ]
     },
-    {
-        name: "react-component-lifecycle",
-        title: "React Component Lifecycle",
-        content: [
-            "Class components have lifecycle methods: mounting, updating, unmounting.",
-            "Key methods include: componentDidMount, componentDidUpdate, componentWillUnmount.",
-            "Functional components use the useEffect hook to mimic lifecycle behavior.",
-            "Example:\nuseEffect(() => {\n  console.log('Mounted');\n  return () => console.log('Unmounted');\n}, []);"
-        ]
-    },
-    {
-        name: "react-routing-basics",
-        title: "React Router Basics",
-        content: [
-            "React Router allows navigation between pages without a page reload.",
-            "Set up routes using BrowserRouter, Routes, and Route components.",
-            "Example:\n<Routes>\n  <Route path=\"/\" element={<Home />} />\n  <Route path=\"/about\" element={<About />} />\n</Routes>",
-            "Use Link component for navigation:\n<Link to=\"/about\">About</Link>"
-        ]
-    },
-    {
-        name: "react-state-management",
-        title: "Managing State in React",
-        content: [
-            "State allows components to keep track of dynamic data.",
-            "useState hook lets functional components manage state.",
-            "Example:\nconst [count, setCount] = useState(0);",
-            "Updating state triggers a re-render with the new value."
-        ]
-    }
 ];
 
 export default articles;

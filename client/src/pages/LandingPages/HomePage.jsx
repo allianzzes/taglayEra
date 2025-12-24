@@ -9,32 +9,32 @@ function HomePage() {
     <div className="page">
       <section className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Frontend studio</p>
-          <h1>Polished UI patterns without the corporate beige.</h1>
+          <p className="eyebrow" style={{color: 'var(--accent)'}}>SITUATION REPORT: ACTIVE</p>
+          <h1>THE VOID MAP: SECTOR INTEL DATABASE.</h1>
           <p className="lead">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec euismod posuere a aliquam
-            mattis ac sed nibh tincidunt non ultrices.
+            The world went dark, but the map stays open. Use this terminal to scout infested 
+            territories, log screamer nests, and verify safe zones for the resistance.
           </p>
           <div className="hero-actions">
             <Link to="/articles" className="button-link primary">
-              Browse articles
+              SCOUT SECTORS
             </Link>
             <Link to="/about" className="button-link secondary">
-              About the team
+              THE PROTOCOL
             </Link>
           </div>
           <div className="stats">
             <div className="stat">
               <strong>{articles.length}+</strong>
-              <span>React breakdowns</span>
+              <span>Active Reports</span>
             </div>
             <div className="stat">
-              <strong>3</strong>
-              <span>UI micro-guides</span>
+              <strong>CRITICAL</strong>
+              <span>Alert Status</span>
             </div>
             <div className="stat">
-              <strong>Zero</strong>
-              <span>fluff allowed</span>
+              <strong>OFFLINE</strong>
+              <span>Central Grid</span>
             </div>
           </div>
         </div>
@@ -42,12 +42,12 @@ function HomePage() {
         <div className="hero-visual">
           <div className="hero-panel">
             <img
-              src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80"
-              alt="Design desk with colorful UI elements"
+              src="https://images.unsplash.com/photo-1684636553231-7612951229d2?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Dark abandoned post-apocalyptic city"
+              style={{filter: 'grayscale(1) contrast(1.2)'}}
             />
             <p className="muted">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices in velit varius
-              rutrum vitae arcu.
+              Visual feed from Sector 4 perimeter. Evidence of mass migration detected at 0400 hours.
             </p>
           </div>
         </div>
@@ -56,34 +56,31 @@ function HomePage() {
       <section>
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Highlights</p>
-            <h2>What you get inside.</h2>
+            <p className="eyebrow">FIELD NOTES</p>
+            <h2>SURVIVAL ESSENTIALS.</h2>
           </div>
-          <span className="muted">Clean patterns, real-world snippets.</span>
+          <span className="muted">Standard operating procedures for the end of the world.</span>
         </div>
         <div className="feature-grid">
           <div className="feature-card">
-            <div className="feature-icon">UI</div>
-            <h3>Layout recipes</h3>
+            <div className="feature-icon"></div>
+            <h3>Scouting</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac sed augue sem sit bibendum
-              at dui varius.
+              Learn how to identify Screamer nests before they identify you. Silence is your only armor.
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">FE</div>
-            <h3>React clarity</h3>
+            <div className="feature-icon"></div>
+            <h3>Resource Management</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies suspendisse
-              pellentesque auctor habitant amet.
+              Documenting supply drops and medical stashes left by previous scouting parties.
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">UX</div>
-            <h3>Microcopy cues</h3>
+            <div className="feature-icon"></div>
+            <h3>Safe Zones</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisis nisl ultricies
-              dignissim vulputate est.
+              Current fortification status of major metro bunkers and rural outposts.
             </p>
           </div>
         </div>
@@ -92,24 +89,24 @@ function HomePage() {
       <section className="articles-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Articles</p>
-            <h2>Latest reads.</h2>
+            <p className="eyebrow">INTEL LOGS</p>
+            <h2>LATEST SCOUTING REPORTS.</h2>
           </div>
           <Link to="/articles" className="button-link secondary">
-            View all
+            VIEW ALL LOGS
           </Link>
         </div>
         <div className="article-preview-grid">
           {featuredArticles.map((article) => (
             <div key={article.name} className="article-preview">
               <div className="article-meta">
-                <span className="pill">React</span>
-                <span className="muted">{article.content[0].substring(0, 30)}...</span>
+                <span className="pill" style={{backgroundColor: 'var(--accent)', color: 'white'}}>DANGER</span>
+                <span className="muted">TS: {new Date().toLocaleDateString()}</span>
               </div>
               <h3>{article.title}</h3>
-              <p>{article.content[0].substring(0, 150)}...</p>
+              <p>{article.content[1].substring(0, 150)}...</p>
               <Link to={`/articles/${article.name}`} className="button-link secondary">
-                Read article
+                OPEN FILE
               </Link>
             </div>
           ))}

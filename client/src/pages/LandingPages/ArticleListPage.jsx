@@ -16,51 +16,43 @@ function ArticleListPage() {
         const activeArticles = (data?.articles || []).filter((article) => article.isActive);
         setArticleList(activeArticles);
       } catch (err) {
-        console.error('Error loading articles', err);
-        setError('Unable to load articles right now.');
+        setError('DATA CORRUPTION: UNABLE TO RETRIEVE SECTOR LOGS.');
       } finally {
         setIsLoading(false);
       }
     };
-
     loadArticles();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="page">
-        <p className="muted">Loading articles...</p>
-      </div>
-    );
-  }
+  if (isLoading) return <div className="page"><p className="muted">SCANNING FREQUENCIES...</p></div>;
 
   return (
     <div className="page">
       <div className="page-header">
-        <p className="eyebrow">Library</p>
-        <h1>Articles crafted for UI-minded developers.</h1>
+        <p className="eyebrow" style={{color: 'var(--accent)'}}>ENCRYPTED_DATABASE</p>
+        <h1>ACTIVE SECTORS & SCOUTING INTEL.</h1>
         <p className="lead">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Semper massa sit a, nunc volutpat
-          elit tortor.
+          Select a sector to view recent scouting reports, threat levels, and survivor logs. 
+          Do not venture into unmapped territory without a secondary signal.
         </p>
       </div>
 
       {error ? (
-        <p className="muted">{error}</p>
+        <div className="callout"><p>{error}</p></div>
       ) : articleList.length > 0 ? (
         <ArticleList articles={articleList} />
       ) : (
-        <p className="muted">No articles available right now.</p>
+        <p className="muted">NO ACTIVE SIGNALS DETECTED IN THIS RADIUS.</p>
       )}
 
-      <div className="cta-banner">
-        <h3>Looking for more?</h3>
+      <div className="cta-banner" style={{background: '#1a0000', border: '1px solid var(--accent)'}}>
+        <h3>WANT TO CONTRIBUTE INTEL?</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel purus faucibus neque sed
-          elementum feugiat.
+          Verified scouts can upload new findings from the field. Authenticate your terminal 
+          to gain write-access to the database.
         </p>
         <Link to="/about" className="button-link secondary">
-          Meet the crew
+          VIEW PROTOCOL
         </Link>
       </div>
     </div>

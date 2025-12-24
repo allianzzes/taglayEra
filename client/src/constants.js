@@ -1,5 +1,2 @@
-const HOST = `${import.meta.env.VITE_LOCAL_HOST}/api`;
-
-export default {
-  HOST,
-};
+const HOST = "http://localhost:5000/api"; // Verify your server is on 5000
+export default { HOST };

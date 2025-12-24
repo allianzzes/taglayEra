@@ -7,22 +7,22 @@ function Footer() {
     const currentYear = new Date().getFullYear();
     
     return (
-        <footer className="corporate-footer">
+        <footer className="terminal-footer">
             <div className="footer-content">
                 <div className="footer-section">
-                    <h4>About</h4>
+                    <h4>BROADCAST_LOG</h4>
                     <p>
-                        Curating concise React know-how and tasteful UI ideas for builders who want
-                        to ship fast without looking generic.
+                        Mapping the fallout. Documenting the silence. This terminal is maintained 
+                        by the survivors of Sector-0 for those still listening.
                     </p>
                 </div>
                 <div className="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: cyrusrobles@company.com</p>
-                    <p>Phone: 09**-***-****</p>
+                    <h4>COMM_CHANNELS</h4>
+                    <p>Secure Mail: scout@thevoidmap.dark</p>
+                    <p>Frequency: 144.1 MHz (Emergency Only)</p>
                 </div>
                 <div className="footer-section">
-                    <h4>Follow Us</h4>
+                    <h4>ENCRYPTED_LINKS</h4>
                     <div className="social-links">
                         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
                             <FontAwesomeIcon icon={faLinkedin} />
@@ -37,7 +37,9 @@ function Footer() {
                 </div>
             </div>
             <div className="footer-bottom">
-                    <p>&copy; {currentYear} Your Company Name. All rights reserved.</p>
+                    <p>
+                        EST. YEAR ZERO | [{currentYear}] THE VOID MAP DATABASE | NO DATA FLUFF ALLOWED.
+                    </p>
             </div>
         </footer>
     );

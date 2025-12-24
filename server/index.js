@@ -1,40 +1,29 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
-
+const mongoose = require("mongoose"); // Added missing import
 const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-
-const connectDB = require("./config/db");
 
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 
 const app = express();
 
-// Database Connection
-connectDB();
-
+// Middleware
 app.use(express.json());
-
-//Middleware
-app.use(jsonParser);
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
 
+// Optimized CORS Configuration
 const corsOptions = {
-  origin: "*", // Allow all origins
-  credentials: true, // Allow credentials
+  origin: "*", 
+  credentials: true,
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204, // For legacy browser support
 };
-app.options("", cors(corsOptions)); // Pre-flight request for all routes
 app.use(cors(corsOptions));
 
-// Curb Cores Error by adding a header here
+// Extra Security Headers for CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -48,21 +37,17 @@ app.use((req, res, next) => {
   next();
 });
 
+// Database Connection
+// We use the direct mongoose call here to force the survivor_db name
+mongoose.connect(process.env.MONGO_URI, {
+  dbName: 'survivor_db' 
+})
+.then((conn) => console.log(`SUCCESS: MongoDB Connected to: ${conn.connection.db.databaseName}`))
+.catch(err => console.error("DATABASE_CONNECTION_ERROR:", err.message));
+
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
-
-//Getting UI
-// if (process.env.NODE_ENV === "production") {
-//     const root = path.join(__dirname, '../robles-front-end/dist');
-//     app.use(express.static(root));
-//     app.all('/{*any}', (req, res, next) => {
-//         res.sendFile(path.join(root, 'index.html'));
-//     })
-//     // app.get('*', (req, res) => {
-//         // res.sendFile(path.join(root, 'index.html'));
-//     // });
-// }
 
 // Error Handling
 app.use((err, req, res, next) => {
@@ -70,5 +55,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Server Error" });
 });
 
-const PORT = process.env.PORT || 8000;
+// Port Handling (Your .env says 5000, let's honor that)
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

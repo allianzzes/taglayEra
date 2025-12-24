@@ -13,85 +13,50 @@ function ArticlePage() {
     const loadArticle = async () => {
       try {
         setIsLoading(true);
-        setError('');
         const { data } = await fetchArticleByName(name);
-        const fetchedArticle = data?.article;
-        if (fetchedArticle && fetchedArticle.isActive !== false) {
-          setArticle(fetchedArticle);
+        if (data?.article && data.article.isActive !== false) {
+          setArticle(data.article);
         } else {
           setArticle(null);
         }
       } catch (err) {
-        if (err?.response?.status === 404) {
-          setArticle(null);
-        } else {
-          console.error('Error loading article', err);
-          setError('Unable to load this article right now.');
-        }
+        setError('DECRYPTION ERROR: FILE INACCESSIBLE.');
       } finally {
         setIsLoading(false);
       }
     };
-
     loadArticle();
   }, [name]);
 
-  if (isLoading) {
-    return (
-      <div className="page">
-        <p className="muted">Loading article...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="page">
-        <p className="muted">{error}</p>
-      </div>
-    );
-  }
-
-  if (!article) {
-    return <NotFoundPage />;
-  }
-
-  const contentArray = Array.isArray(article.content)
-    ? article.content
-    : article.content
-      ? [article.content]
-      : [];
-
-  const words = contentArray.join(' ').split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(2, Math.ceil(words / 70));
+  if (isLoading) return <div className="page"><p className="muted">DECRYPTING FILE...</p></div>;
+  if (error || !article) return <NotFoundPage />;
 
   return (
     <div className="page article-page">
       <div className="page-header">
-        <p className="eyebrow">Article</p>
-        <h1>{article.title}</h1>
+        <p className="eyebrow" style={{color: 'var(--accent)'}}>SCOUTING_REPORT</p>
+        <h1 style={{textTransform: 'uppercase'}}>{article.title}</h1>
         <div className="article-meta">
-          <span className="pill">React</span>
-          <span className="muted">{minutes} min read</span>
+          <span className="pill" style={{background: 'var(--accent)', color: 'white', border: 'none'}}>DANGER LEVEL: HIGH</span>
+          <span className="muted">EST. EXTRACTION: {Math.max(2, Math.ceil(article.content.length / 2))} MIN</span>
         </div>
-        <p className="lead">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus egestas blandit
-          fringilla platea quam vel.
-        </p>
       </div>
 
       <div className="article-body">
-        {contentArray.map((paragraph, idx) => (
-          <p key={`${article.name}-${idx}`}>{paragraph}</p>
+        {article.content.map((paragraph, idx) => (
+          <p key={idx} style={{borderLeft: '1px solid #222', paddingLeft: '20px', marginBottom: '20px'}}>
+            {paragraph}
+          </p>
         ))}
-        <div className="card callout">
-          <h3>Want another angle?</h3>
+        
+        <div className="card callout" style={{background: '#0f0000', borderLeftColor: 'var(--accent)'}}>
+          <h3 style={{color: 'var(--accent)'}}>⚠ PROCEED WITH CAUTION</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit amet nisl eu condimentum
-            tincidunt pulvinar sed commodo.
+            Intel in this sector is updated frequently by local scouts. Check the timestamp 
+            before attempting a supply run.
           </p>
           <Link to="/articles" className="button-link primary">
-            Browse more articles
+            RETURN TO MAP
           </Link>
         </div>
       </div>
