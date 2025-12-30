@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-// Ensure these paths correctly point back to your server folder logic
+// BRIDGE PATHS: Reaching from /api into /server/routes
 const userRoutes = require("../server/routes/userRoutes");
 const articleRoutes = require("../server/routes/articleRoutes");
 
@@ -15,30 +15,30 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Optimized CORS Configuration for Production
+// Optimized CORS
 app.use(cors({
-  origin: "*", // You can change this to your specific Vercel URL later for security
+  origin: "*", 
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
 }));
 
 // Database Connection with Serverless Optimization
-// We define the connection outside the handler for potential reuse by Vercel
 let isConnected = false;
 const connectDB = async () => {
   if (isConnected) return;
   try {
+    // Ensure MONGO_URI is set in Vercel Environment Variables
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       dbName: 'survivor_db' 
     });
     isConnected = true;
-    console.log(`SUCCESS: MongoDB Connected to: ${conn.connection.db.databaseName}`);
+    console.log("MongoDB Connected for Serverless Function");
   } catch (err) {
     console.error("DATABASE_CONNECTION_ERROR:", err.message);
   }
 };
 
-// Middleware to ensure DB is connected before handling requests
+// Ensure DB is connected before handling any route
 app.use(async (req, res, next) => {
   await connectDB();
   next();
@@ -48,21 +48,16 @@ app.use(async (req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 
-// Root path test to confirm API is live
+// Root path test
 app.get("/api", (req, res) => {
-  res.send("Void Map API is running...");
+  res.send("Void Map API is running via Vercel Serverless...");
 });
 
 // Error Handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Server Error" });
+  res.status(500).json({ message: "Server Error", error: err.message });
 });
 
-const userRoutes = require('../server/routes/userRoutes.js');
-const mongoose = require('../server/config/db.js');
-
-// --- CRUCIAL CHANGE FOR VERCEL ---
-// We remove app.listen() because Vercel handles the execution environment.
-// Instead, we export the app instance.
+// CRITICAL: Export for Vercel execution
 module.exports = app;
