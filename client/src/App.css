@@ -335,3 +335,36 @@ button.secondary {
     cursor: wait;
     background-color: #440000 !important;
 }
+
+/* Target the DataGrid/Table container */
+.MuiDataGrid-root {
+    background-color: #0a0a0a !important; /* Dark background */
+    border: 1px solid #333 !important;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif !important; /* Matches homepage */
+    color: #ffffff !important;
+}
+
+/* Fix the header row */
+.MuiDataGrid-columnHeaders {
+    background-color: #1a1a1a !important;
+    color: #9d0000 !important; /* Red accent for headers */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800 !important;
+}
+
+/* Fix the rows and cells */
+.MuiDataGrid-cell {
+    border-bottom: 1px solid #222 !important;
+    color: #cccccc !important;
+}
+
+/* Fix the pagination text at the bottom */
+.MuiTablePagination-root {
+    color: #9d0000 !important;
+}
+
+/* Change hover color for rows */
+.MuiDataGrid-row:hover {
+    background-color: rgba(157, 0, 0, 0.1) !important;
+}

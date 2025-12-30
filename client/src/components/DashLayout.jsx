@@ -23,6 +23,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ArticleIcon from "@mui/icons-material/Article";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import MapIcon from "@mui/icons-material/Map"; // New Icon for Public Map
 import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
@@ -144,7 +145,6 @@ const DashLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Retrieve data from local storage to keep the operator name updated
   const name = localStorage.getItem("firstName") || "Scout";
   const userType = localStorage.getItem("type");
 
@@ -152,7 +152,7 @@ const DashLayout = () => {
   const handleDrawerClose = () => setOpen(false);
 
   const handleLogout = () => {
-    localStorage.clear(); // This removes the token, triggering the ProtectedRoute redirect
+    localStorage.clear();
     navigate("/auth/signin");
   };
 
@@ -181,6 +181,15 @@ const DashLayout = () => {
             <StyledInputBase placeholder="SCAN_DATABASE..." inputProps={{ "aria-label": "search" }} />
           </Search>
 
+          {/* ADDED: View Public Map Button */}
+          <Button 
+            component={Link} 
+            to="/" 
+            sx={{ color: "#fff", marginRight: 2, fontWeight: 'bold', "&:hover": { color: "#9d0000" }}}
+          >
+            VIEW_PUBLIC_MAP
+          </Button>
+
           <Button 
             variant="outlined" 
             onClick={handleLogout}
@@ -200,17 +209,33 @@ const DashLayout = () => {
         <Divider sx={{ backgroundColor: "#222" }} />
         
         <List sx={{ color: "#d1d1d1" }}>
+          {/* ADDED: EXIT TO MAP SIDEBAR ITEM */}
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              component={Link}
+              to="/"
+              sx={{ "&:hover": { backgroundColor: "rgba(157,0,0,0.15)" } }}
+            >
+              <ListItemIcon sx={{ color: "#9d0000" }}>
+                <MapIcon />
+              </ListItemIcon>
+              <ListItemText primary="EXIT_TO_MAP" />
+            </ListItemButton>
+          </ListItem>
+
+          <Divider sx={{ backgroundColor: "#222", marginY: 1 }} />
+
           <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
               component={Link}
               to="/dashboard/dash-articles"
-              selected={location.pathname === "/dashboard/dash-articles"}
+              selected={location.pathname === "/dashboard/dash-articles" || location.pathname === "/dashboard"}
               sx={{
                 "&.Mui-selected": { borderLeft: "4px solid #9d0000", backgroundColor: "rgba(157,0,0,0.1)" },
                 "&:hover": { backgroundColor: "rgba(157,0,0,0.15)" }
               }}
             >
-              <ListItemIcon sx={{ color: location.pathname === "/dashboard/dash-articles" ? "#ff0000" : "#9d0000" }}>
+              <ListItemIcon sx={{ color: (location.pathname === "/dashboard/dash-articles" || location.pathname === "/dashboard") ? "#ff0000" : "#9d0000" }}>
                 <ArticleIcon />
               </ListItemIcon>
               <ListItemText primary="INTEL_LOGS" />

@@ -38,6 +38,8 @@ const SignInPage = () => {
       // Store token for session persistence
       if (response.data && response.data.token) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("firstName", response.data.firstName || "Scout");
+        localStorage.setItem("type", response.data.type || "admin");
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
 

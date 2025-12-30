@@ -48,15 +48,14 @@ const routes = [
     ],
   },
   {
-    path: 'dashboard',
+    path: '/dashboard', // Matches the navigate('/dashboard') in Navbar
     element: (
       <ProtectedRoute>
         <DashLayout />
       </ProtectedRoute>
     ),
-    errorElement: <NotFoundPage />,
     children: [
-      { path: '', element: <DashArticleListPage /> }, // Default view when hitting /dashboard
+      { path: '', element: <DashArticleListPage /> }, // Default view
       { path: 'users', element: <UserListPage /> },
       { path: 'dash-articles', element: <DashArticleListPage /> },
       { path: 'new-report', element: <NewReport /> },
