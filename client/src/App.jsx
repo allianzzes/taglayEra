@@ -37,55 +37,41 @@ const routes = [
     ]
   },
   {
-    path: 'auth/',
+    path: 'auth',
     element: <AuthLayout />,
     errorElement: <NotFoundPage />,
     children: [
       {
         path: 'signin',
-        element: <SignInPage />, // Use the correct component name imported above
+        element: <SignInPage />,
       },
     ],
   },
   {
-  path: 'dashboard/',
-  element: (
-    <ProtectedRoute>
-      <DashLayout />
-    </ProtectedRoute>
-  ),
-  errorElement: <NotFoundPage />,
-  children: [
-    { path: 'users', element: <UserListPage /> },
-    { path: 'dash-articles', element: <DashArticleListPage /> },
-    { path: 'new-report', element: <NewReport /> },
-  ]
-  },
-  {
-    path: 'dashboard/',
-    element: <DashLayout />,
+    path: 'dashboard',
+    element: (
+      <ProtectedRoute>
+        <DashLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFoundPage />,
     children: [
-      {
-        path: 'users',
-        element: <UserListPage />
-      },
-      {
-        path: 'dash-articles',
-        element: <DashArticleListPage />
-      },
-      {
-        path: 'new-report', // This connects your Sidebar link to the Create form
-        element: <NewReport />
-      },
+      { path: '', element: <DashArticleListPage /> }, // Default view when hitting /dashboard
+      { path: 'users', element: <UserListPage /> },
+      { path: 'dash-articles', element: <DashArticleListPage /> },
+      { path: 'new-report', element: <NewReport /> },
     ]
   },
+  // Catch-all for any other 404s
+  {
+    path: '*',
+    element: <NotFoundPage />
+  }
 ];
 
 const router = createBrowserRouter(routes);
 
 function App() {
-  // Use the Provider instead of mixing <Routes> components
   return <RouterProvider router={router} />;
 }
 
