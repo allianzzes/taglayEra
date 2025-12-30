@@ -59,6 +59,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Server Error" });
 });
 
+const userRoutes = require('../server/routes/userRoutes.js');
+const mongoose = require('../server/config/db.js');
+
 // --- CRUCIAL CHANGE FOR VERCEL ---
 // We remove app.listen() because Vercel handles the execution environment.
 // Instead, we export the app instance.
